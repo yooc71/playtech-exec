@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playtech — Executive Intelligence Briefing 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --brand: #0055FF;
+      --dark-brand: #003ACC;
+      --bright: #00AAFF;
+      --cyan: #00D4FF;
+      --black: #060C1A;
+      --dark: #080E1C;
+      --card: #0D1528;
+      --card2: #111E38;
+      --border: #172040;
+      --text: #EEF2FF;
+      --muted: #6B80AA;
+      --gold: #FFB800;
+      --green: #00D97E;
+      --blue: #00AAFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Exo 2', 'Segoe UI', -apple-system, sans-serif;
+      background: var(--black);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(6,12,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 16px; }
+    .nav-logo svg { height: 34px; width: auto; }
+    .nav-divider { width: 1px; height: 28px; background: var(--border); }
+    .nav-subtitle { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-family: 'Exo 2', sans-serif; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--brand); }
+    .nav-badge {
+      background: var(--brand); color: #fff; padding: 6px 16px;
+      border-radius: 20px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 24px 80px;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,85,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,85,255,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridPan 20s linear infinite;
+    }
+    @keyframes gridPan {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+    .hero-glow {
+      position: absolute; top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(0,85,255,0.18) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-label {
+      display: inline-block;
+      background: rgba(0,85,255,0.15); border: 1px solid rgba(0,85,255,0.4);
+      color: var(--brand); padding: 6px 20px; border-radius: 40px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 32px;
+    }
+    .hero-title {
+      font-size: clamp(42px, 7vw, 96px);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: -0.03em;
+      font-family: 'Barlow Condensed', sans-serif;
+      background: linear-gradient(135deg, #ffffff 40%, rgba(255,255,255,0.6) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--brand) 0%, #ff4444 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-year {
+      font-size: clamp(60px, 10vw, 130px);
+      font-weight: 900; line-height: 1.0;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.05em;
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      white-space: nowrap; pointer-events: none; z-index: 0;
+    }
+    .hero-desc {
+      font-size: 18px; color: var(--muted); max-width: 580px;
+      line-height: 1.7; margin: 24px auto 48px;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--brand); color: #fff; padding: 14px 36px;
+      border-radius: 8px; font-weight: 700; font-size: 15px;
+      border: none; cursor: pointer; text-decoration: none;
+      display: inline-block; transition: all 0.2s;
+      box-shadow: 0 0 30px rgba(0,85,255,0.4);
+    }
+    .btn-primary:hover { background: var(--dark-brand); transform: translateY(-2px); box-shadow: 0 4px 40px rgba(0,85,255,0.6); }
+    .btn-secondary {
+      background: transparent; color: var(--text); padding: 14px 36px;
+      border-radius: 8px; font-weight: 600; font-size: 15px;
+      border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+      display: inline-block; transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--brand); color: var(--brand); }
+
+    /* ─── STAT TICKER ─── */
+    .ticker {
+      background: var(--brand); overflow: hidden; padding: 12px 0;
+      margin-top: -1px;
+    }
+    .ticker-inner {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: ticker 30s linear infinite;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 0 48px; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+    }
+    .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+
+    /* ─── SECTION ─── */
+    section { padding: 100px 0; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+    .section-label {
+      font-size: 11px; color: var(--brand); text-transform: uppercase;
+      letter-spacing: 0.2em; font-weight: 700; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 900; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .section-desc {
+      font-size: 17px; color: var(--muted); line-height: 1.7;
+      max-width: 560px; margin-bottom: 60px;
+    }
+
+    /* ─── SHOCK STATS ─── */
+    #numbers { background: var(--dark); }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2px;
+    }
+    .stat-card {
+      background: var(--card); padding: 48px 32px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,85,255,0.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-card:hover { background: var(--card2); }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-icon { font-size: 28px; margin-bottom: 20px; }
+    .stat-number {
+      font-size: clamp(36px, 4vw, 60px); font-weight: 900;
+      line-height: 1; letter-spacing: -0.03em;
+      color: #fff; margin-bottom: 8px;
+    }
+    .stat-number .unit { font-size: 0.45em; color: var(--brand); font-weight: 900; }
+    .stat-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .stat-sub { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 6px; }
+
+    /* ─── SEGMENTS ─── */
+    #segments { background: var(--black); }
+    .segments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .segments-grid { grid-template-columns: 1fr; } }
+    .segment-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px 36px;
+      position: relative; overflow: hidden;
+      transition: all 0.3s;
+    }
+    .segment-card:hover { border-color: var(--brand); transform: translateY(-4px); }
+    .segment-accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .segment-card.b2b .segment-accent { background: var(--brand); }
+    .segment-card.fin .segment-accent { background: var(--gold); }
+    .segment-card.b2c .segment-accent { background: var(--blue); }
+    .segment-num {
+      font-size: 11px; color: var(--muted); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .segment-icon { font-size: 40px; margin-bottom: 20px; }
+    .segment-name { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+    .segment-tag {
+      display: inline-block; padding: 4px 12px; border-radius: 4px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 20px;
+    }
+    .b2b .segment-tag { background: rgba(0,85,255,0.15); color: var(--brand); }
+    .fin .segment-tag { background: rgba(255,184,0,0.15); color: var(--gold); }
+    .b2c .segment-tag { background: rgba(0,128,255,0.15); color: var(--blue); }
+    .segment-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+    .segment-revenue {
+      font-size: 32px; font-weight: 900; margin-bottom: 4px;
+    }
+    .b2b .segment-revenue { color: var(--brand); }
+    .fin .segment-revenue { color: var(--gold); }
+    .b2c .segment-revenue { color: var(--blue); }
+    .segment-rev-label { font-size: 12px; color: var(--muted); }
+    .segment-products { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .segment-product {
+      font-size: 11px; color: rgba(255,255,255,0.5);
+      border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px;
+    }
+
+    /* ─── FINANCIALS ─── */
+    #financials { background: var(--dark); }
+    .fin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 900px) { .fin-layout { grid-template-columns: 1fr; } }
+    .chart-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 36px; position: relative;
+    }
+    .chart-title { font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px; }
+    .fin-highlights { display: flex; flex-direction: column; gap: 20px; }
+    .fin-highlight {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .fin-highlight-icon { font-size: 32px; min-width: 48px; }
+    .fin-highlight-num { font-size: 36px; font-weight: 900; }
+    .fin-highlight-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .trend-up { color: var(--green); font-size: 13px; font-weight: 700; margin-top: 4px; }
+    .trend-down { color: var(--brand); font-size: 13px; font-weight: 700; margin-top: 4px; }
+
+    /* ─── GLOBAL REACH ─── */
+    #global { background: var(--black); }
+    .global-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media (max-width: 900px) { .global-grid { grid-template-columns: 1fr; } }
+    .region-list { display: flex; flex-direction: column; gap: 12px; }
+    .region-item {
+      background: var(--card); border-radius: 10px; padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      border: 1px solid var(--border);
+    }
+    .region-name { font-size: 15px; font-weight: 600; }
+    .region-count { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .region-bar-wrap { flex: 1; margin: 0 24px; height: 4px; background: var(--border); border-radius: 2px; }
+    .region-bar { height: 4px; background: var(--brand); border-radius: 2px; transition: width 1.5s ease; }
+    .region-pct { font-size: 13px; color: var(--brand); font-weight: 700; min-width: 36px; text-align: right; }
+    .globe-visual {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 360px; position: relative; overflow: hidden;
+    }
+    .globe-ring {
+      width: 220px; height: 220px; border-radius: 50%;
+      border: 2px solid rgba(0,85,255,0.3);
+      position: absolute; animation: spin 12s linear infinite;
+    }
+    .globe-ring:nth-child(2) { width: 300px; height: 300px; border-color: rgba(0,85,255,0.15); animation-duration: 20s; animation-direction: reverse; }
+    .globe-ring:nth-child(3) { width: 380px; height: 380px; border-color: rgba(0,85,255,0.08); animation-duration: 30s; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .globe-center {
+      position: relative; z-index: 1; text-align: center;
+    }
+    .globe-num { font-size: 72px; font-weight: 900; color: var(--brand); line-height: 1; }
+    .globe-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
+    .globe-dots { position: absolute; inset: 0; }
+    .globe-dot {
+      position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--brand);
+      box-shadow: 0 0 8px var(--brand);
+    }
+
+    /* ─── COMPETITORS ─── */
+    #competitors { background: var(--dark); }
+    .comp-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 14px;
+    }
+    .comp-table th {
+      padding: 14px 20px; text-align: left;
+      color: var(--muted); font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.1em; border-bottom: 1px solid var(--border);
+    }
+    .comp-table td {
+      padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .comp-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .comp-name { font-weight: 700; font-size: 15px; }
+    .comp-name.us { color: var(--brand); }
+    .comp-rating {
+      display: flex; gap: 3px;
+    }
+    .comp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .comp-dot.empty { background: var(--border); }
+    .comp-dot.warn { background: var(--gold); }
+    .comp-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;
+    }
+    .badge-leader { background: rgba(0,217,126,0.15); color: var(--green); }
+    .badge-strong { background: rgba(0,128,255,0.15); color: var(--blue); }
+    .badge-growing { background: rgba(255,184,0,0.15); color: var(--gold); }
+    .badge-niche { background: rgba(255,255,255,0.08); color: var(--muted); }
+
+    /* ─── OPPORTUNITY ─── */
+    #opportunity { background: var(--black); }
+    .opp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    @media (max-width: 700px) { .opp-grid { grid-template-columns: 1fr; } }
+    .opp-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 36px;
+      position: relative; overflow: hidden; cursor: default;
+      transition: all 0.3s;
+    }
+    .opp-card:hover { border-color: rgba(0,85,255,0.5); transform: translateY(-3px); }
+    .opp-card.highlight {
+      background: linear-gradient(135deg, rgba(0,85,255,0.1) 0%, var(--card) 60%);
+      border-color: rgba(0,85,255,0.3);
+      grid-column: span 2;
+    }
+    @media (max-width: 700px) { .opp-card.highlight { grid-column: span 1; } }
+    .opp-num { font-size: 11px; color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px; }
+    .opp-icon { font-size: 36px; margin-bottom: 16px; }
+    .opp-title { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    .opp-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .opp-impact {
+      margin-top: 20px; display: inline-block;
+      padding: 6px 16px; border-radius: 6px;
+      background: rgba(0,217,126,0.1); color: var(--green);
+      font-size: 13px; font-weight: 700;
+    }
+    .opp-impact.gold { background: rgba(255,184,0,0.1); color: var(--gold); }
+    .opp-impact.blue { background: rgba(0,128,255,0.1); color: var(--blue); }
+
+    /* ─── DIAGRAM SECTION ─── */
+    #diagram { background: var(--dark); }
+    .diagram-embed {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      height: 600px; position: relative;
+    }
+    .diagram-embed iframe { width: 100%; height: 100%; border: none; }
+    .diagram-placeholder {
+      width: 100%; height: 600px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 16px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; color: var(--muted);
+    }
+    .diagram-placeholder .big-icon { font-size: 64px; }
+    .diagram-placeholder p { font-size: 15px; }
+
+    /* ─── VIDEO SECTION ─── */
+    #video-section { background: var(--black); }
+    .video-player {
+      width: 100%; max-width: 960px; margin: 0 auto;
+      border-radius: 20px; overflow: hidden; position: relative;
+      background: var(--card); border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+    }
+    .video-cinema {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #0D0D0D 0%, #050D1C 50%, #0D0D0D 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .video-lines {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+    }
+    .video-scan {
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--brand), transparent);
+      animation: scan 3s linear infinite;
+    }
+    @keyframes scan { from { top: 0; } to { top: 100%; } }
+    .video-content { position: relative; z-index: 1; text-align: center; padding: 40px; }
+    .video-logo { font-size: 80px; font-weight: 900; color: var(--brand); letter-spacing: -0.04em; margin-bottom: 8px; text-shadow: 0 0 40px rgba(0,85,255,0.8); }
+    .video-tagline { font-size: 18px; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 32px; }
+    .video-stats { display: flex; gap: 48px; justify-content: center; }
+    .video-stat { text-align: center; }
+    .video-stat-num { font-size: 36px; font-weight: 900; color: #fff; }
+    .video-stat-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+    .video-corner {
+      position: absolute; width: 20px; height: 20px; border-color: var(--brand); border-style: solid;
+    }
+    .video-corner.tl { top: 20px; left: 20px; border-width: 2px 0 0 2px; }
+    .video-corner.tr { top: 20px; right: 20px; border-width: 2px 2px 0 0; }
+    .video-corner.bl { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; }
+    .video-corner.br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+    .video-label-text {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .rec-dot {
+      position: absolute; top: 16px; right: 48px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--brand); font-weight: 700;
+    }
+    .rec-dot::before {
+      content: ''; width: 8px; height: 8px; background: var(--brand);
+      border-radius: 50%; animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ─── TIMELINE ─── */
+    #timeline { background: var(--dark); }
+    .timeline-track { position: relative; padding-left: 40px; }
+    .timeline-track::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--brand), rgba(0,85,255,0.1));
+    }
+    .timeline-item { position: relative; margin-bottom: 40px; }
+    .timeline-dot {
+      position: absolute; left: -46px; top: 4px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--brand); box-shadow: 0 0 12px rgba(0,85,255,0.6);
+    }
+    .timeline-year { font-size: 12px; color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .timeline-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .timeline-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--card); border-top: 1px solid var(--border);
+      padding: 60px 48px; text-align: center;
+    }
+    .footer-logo { font-size: 32px; font-weight: 900; color: var(--brand); margin-bottom: 12px; }
+    .footer-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .footer-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    .footer-bottom { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+    /* ─── COUNTER ANIMATION ─── */
+    .count-up { display: inline-block; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--brand); border-radius: 3px; }
+
+    /* ─── FADE IN ─── */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <!-- Playtech SVG Logo -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 40" height="34">
+      <defs>
+        <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0055FF"/>
+          <stop offset="100%" stop-color="#00AAFF"/>
+        </linearGradient>
+      </defs>
+      <!-- Icon: rounded square with stylised P + embedded play arrow -->
+      <rect x="0" y="2" width="36" height="36" rx="8" fill="url(#navGrad)"/>
+      <polygon points="12,12 12,28 26,20" fill="rgba(255,255,255,0.22)"/>
+      <text x="8" y="30" font-family="Rajdhani,Arial Black,sans-serif" font-size="24" font-weight="700" fill="#fff">P</text>
+      <!-- Wordmark -->
+      <text x="46" y="29" font-family="Rajdhani,Arial,sans-serif" font-size="23" font-weight="600" fill="#fff" letter-spacing="1.5">playtech</text>
+    </svg>
+    <div class="nav-divider"></div>
+    <div class="nav-subtitle">Executive Intelligence Briefing · 2026</div>
+  </div>
+  <div class="nav-links">
+    <a href="#numbers">Numbers</a>
+    <a href="#segments">Business</a>
+    <a href="#financials">Financials</a>
+    <a href="#global">Global</a>
+    <a href="#opportunity">Opportunity</a>
+    <a href="#ai-future" style="color:var(--cyan);">AI 2030</a>
+  </div>
+  <div class="nav-badge">CONFIDENTIAL</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content fade-in">
+    <div class="hero-label">Executive Intelligence Briefing · 2026</div>
+    <h1 class="hero-title">The World's<br>Largest Gaming<br><span>Technology Company</span></h1>
+    <p class="hero-desc">
+      25 years of powering the global gaming industry. From a startup in Tartu, Estonia to a
+      £1.5B+ enterprise serving 300+ operators across 140+ regulated markets.
+    </p>
+    <div class="hero-cta">
+      <a href="#numbers" class="btn-primary">See the Numbers</a>
+      <a href="#opportunity" class="btn-secondary">Strategic Opportunities</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <!-- duplicated in JS -->
+  </div>
+</div>
+
+<!-- SHOCK STATS -->
+<section id="numbers">
+  <div class="container fade-in">
+    <div class="section-label">The Scale</div>
+    <h2 class="section-title">Numbers That Define<br>An Industry</h2>
+    <p class="section-desc">These are not projections. This is Playtech's operating reality — the infrastructure behind the world's biggest gaming brands.</p>
+  </div>
+  <div class="stats-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-number">£<span class="count-up" data-target="1700">0</span><span class="unit">M+</span></div>
+      <div class="stat-label">Annual Revenue</div>
+      <div class="stat-sub">FY 2024 reported</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌍</div>
+      <div class="stat-number"><span class="count-up" data-target="140">0</span><span class="unit">+</span></div>
+      <div class="stat-label">Regulated Markets</div>
+      <div class="stat-sub">Globally licensed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📜</div>
+      <div class="stat-number"><span class="count-up" data-target="300">0</span><span class="unit">+</span></div>
+      <div class="stat-label">Operating Licences</div>
+      <div class="stat-sub">Across all jurisdictions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🏢</div>
+      <div class="stat-number"><span class="count-up" data-target="7000">0</span><span class="unit">+</span></div>
+      <div class="stat-label">Employees</div>
+      <div class="stat-sub">Worldwide headcount</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎰</div>
+      <div class="stat-number"><span class="count-up" data-target="35">0</span><span class="unit">B+</span></div>
+      <div class="stat-label">Player Actions / Year</div>
+      <div class="stat-sub">Processed on Playtech IMS</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🤝</div>
+      <div class="stat-number"><span class="count-up" data-target="300">0</span><span class="unit">+</span></div>
+      <div class="stat-label">Operator Partners</div>
+      <div class="stat-sub">B2B software clients</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎲</div>
+      <div class="stat-number"><span class="count-up" data-target="25">0</span><span class="unit">yrs</span></div>
+      <div class="stat-label">Industry Experience</div>
+      <div class="stat-sub">Founded 1999, Tartu, Estonia</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📡</div>
+      <div class="stat-number"><span class="count-up" data-target="24">0</span><span class="unit">/7</span></div>
+      <div class="stat-label">Live Casino Studio Uptime</div>
+      <div class="stat-sub">Largest live studio globally</div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS SEGMENTS -->
+<section id="segments">
+  <div class="container">
+    <div class="section-label fade-in">Business Architecture</div>
+    <h2 class="section-title fade-in">Three Pillars,<br>One Platform</h2>
+    <p class="section-desc fade-in">Playtech operates the most vertically integrated technology stack in the gaming industry — from software licensing to proprietary B2C brands.</p>
+    <div class="segments-grid fade-in">
+      <div class="segment-card b2b">
+        <div class="segment-accent"></div>
+        <div class="segment-num">01 / CORE</div>
+        <div class="segment-icon">🏗</div>
+        <div class="segment-name">B2B Gaming</div>
+        <div class="segment-tag">Primary Engine</div>
+        <p class="segment-desc">
+          The backbone of Playtech — powering the world's largest gambling operators with software,
+          managed services, and the IMS player intelligence platform. Casino, Sports, Poker, Bingo, Live.
+        </p>
+        <div class="segment-revenue">~£1.4B</div>
+        <div class="segment-rev-label">Revenue contribution (est.)</div>
+        <div class="segment-products">
+          <span class="segment-product">Casino</span>
+          <span class="segment-product">Live Casino</span>
+          <span class="segment-product">Sports Betting</span>
+          <span class="segment-product">Poker</span>
+          <span class="segment-product">Bingo</span>
+          <span class="segment-product">IMS</span>
+          <span class="segment-product">Playtech ONE</span>
+        </div>
+      </div>
+      <div class="segment-card fin">
+        <div class="segment-accent"></div>
+        <div class="segment-num">02 / DIVESTED</div>
+        <div class="segment-icon">📈</div>
+        <div class="segment-name">Financial Trading</div>
+        <div class="segment-tag">Finalto (Sold 2022)</div>
+        <p class="segment-desc">
+          Formerly operated TradeTech and Finalto — white-label financial trading platforms.
+          Divested to Gal Sport Betting in 2022 to sharpen focus on core gaming B2B strategy.
+        </p>
+        <div class="segment-revenue">Divested</div>
+        <div class="segment-rev-label">Strategic refocus complete</div>
+        <div class="segment-products">
+          <span class="segment-product">TradeTech</span>
+          <span class="segment-product">Finalto</span>
+          <span class="segment-product">CFD Platforms</span>
+        </div>
+      </div>
+      <div class="segment-card b2c">
+        <div class="segment-accent"></div>
+        <div class="segment-num">03 / GROWTH</div>
+        <div class="segment-icon">👤</div>
+        <div class="segment-name">B2C Brands</div>
+        <div class="segment-tag">Snaitech (Italy)</div>
+        <p class="segment-desc">
+          Direct-to-consumer brands anchored by Snaitech, Italy's leading gambling operator.
+          Acquired in 2018 for €846M — now generating significant direct player revenue and brand equity.
+        </p>
+        <div class="segment-revenue">~€400M+</div>
+        <div class="segment-rev-label">Snaitech revenue (annual est.)</div>
+        <div class="segment-products">
+          <span class="segment-product">Snai.it</span>
+          <span class="segment-product">Snaitech</span>
+          <span class="segment-product">Physical Retail</span>
+          <span class="segment-product">Online Casino</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials">
+  <div class="container">
+    <div class="section-label fade-in">Financial Performance</div>
+    <h2 class="section-title fade-in">Consistent Growth<br>Through Complexity</h2>
+    <p class="section-desc fade-in">From COVID disruption to strategic portfolio rebalancing — Playtech has navigated industry turbulence while maintaining financial momentum.</p>
+    <div class="fin-layout fade-in">
+      <div class="chart-card">
+        <div class="chart-title">Revenue Growth (£M) — B2B Gaming</div>
+        <canvas id="revenueChart" height="260"></canvas>
+      </div>
+      <div class="fin-highlights">
+        <div class="fin-highlight">
+          <div class="fin-highlight-icon">💹</div>
+          <div>
+            <div class="fin-highlight-num" style="color: var(--green)">+18%</div>
+            <div class="fin-highlight-label">B2B Revenue YoY Growth</div>
+            <div class="trend-up">↑ Sustained organic expansion</div>
+          </div>
+        </div>
+        <div class="fin-highlight">
+          <div class="fin-highlight-icon">🏆</div>
+          <div>
+            <div class="fin-highlight-num" style="color: var(--gold)">Top 10</div>
+            <div class="fin-highlight-label">LSE Gaming Company by Market Cap</div>
+            <div class="trend-up">↑ Ticker: PTEC</div>
+          </div>
+        </div>
+        <div class="fin-highlight">
+          <div class="fin-highlight-icon">🇮🇹</div>
+          <div>
+            <div class="fin-highlight-num" style="color: var(--blue)">€846M</div>
+            <div class="fin-highlight-label">Snaitech Acquisition (2018)</div>
+            <div class="trend-up">↑ Now generating strong returns</div>
+          </div>
+        </div>
+        <div class="fin-highlight">
+          <div class="fin-highlight-icon">🇺🇸</div>
+          <div>
+            <div class="fin-highlight-num" style="color: var(--brand)">$100B+</div>
+            <div class="fin-highlight-label">US iGaming TAM by 2030</div>
+            <div class="trend-up">↑ Playtech expanding partnerships</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL REACH -->
+<section id="global">
+  <div class="container">
+    <div class="section-label fade-in">Global Footprint</div>
+    <h2 class="section-title fade-in">Everywhere Gaming<br>Happens, We're There</h2>
+    <p class="section-desc fade-in">Playtech holds more gaming licences in more jurisdictions than any other B2B software provider in the world.</p>
+    <div class="global-grid fade-in">
+      <div class="region-list">
+        <div class="region-item">
+          <div>
+            <div class="region-name">🇬🇧 UK & Ireland</div>
+            <div class="region-count">William Hill, Entain, Bet365</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:95%"></div></div>
+          <div class="region-pct">95%</div>
+        </div>
+        <div class="region-item">
+          <div>
+            <div class="region-name">🇮🇹 Italy</div>
+            <div class="region-count">Snaitech — #1 operator</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:90%"></div></div>
+          <div class="region-pct">90%</div>
+        </div>
+        <div class="region-item">
+          <div>
+            <div class="region-name">🌏 Asia Pacific</div>
+            <div class="region-count">Philippines, Singapore, Australia</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:75%"></div></div>
+          <div class="region-pct">75%</div>
+        </div>
+        <div class="region-item">
+          <div>
+            <div class="region-name">🇺🇸 United States</div>
+            <div class="region-count">Hard Rock, BetMGM partnerships</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:55%"></div></div>
+          <div class="region-pct">55%</div>
+        </div>
+        <div class="region-item">
+          <div>
+            <div class="region-name">🌍 LatAm</div>
+            <div class="region-count">Brazil, Colombia, Peru</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:45%"></div></div>
+          <div class="region-pct">45%</div>
+        </div>
+        <div class="region-item">
+          <div>
+            <div class="region-name">🌍 Africa</div>
+            <div class="region-count">South Africa, Kenya, Nigeria</div>
+          </div>
+          <div class="region-bar-wrap"><div class="region-bar" style="width:35%"></div></div>
+          <div class="region-pct">35%</div>
+        </div>
+      </div>
+      <div class="globe-visual">
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-center">
+          <div class="globe-num">140+</div>
+          <div class="globe-label">Regulated Markets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section id="competitors">
+  <div class="container">
+    <div class="section-label fade-in">Competitive Intelligence</div>
+    <h2 class="section-title fade-in">How We Stack Up<br>Against the Field</h2>
+    <p class="section-desc fade-in">Playtech maintains the most complete gaming software stack globally — no competitor matches the breadth of product verticals, regulatory coverage, and managed services.</p>
+    <div class="chart-card fade-in" style="padding: 0; overflow: hidden;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Verticals</th>
+            <th>Live Casino</th>
+            <th>Regulation Depth</th>
+            <th>US Ready</th>
+            <th>Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="comp-name us">⭐ Playtech</span></td>
+            <td>Casino, Live, Sports, Poker, Bingo, VA</td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div></div></td>
+            <td>✅ Active</td>
+            <td><span class="comp-badge badge-leader">Market Leader</span></td>
+          </tr>
+          <tr>
+            <td><span class="comp-name">Evolution Gaming</span></td>
+            <td>Live Casino (specialist)</td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot empty"></div></div></td>
+            <td>✅ Active</td>
+            <td><span class="comp-badge badge-leader">Live Leader</span></td>
+          </tr>
+          <tr>
+            <td><span class="comp-name">IGT / Everi</span></td>
+            <td>Slots, Lottery, Land-based</td>
+            <td><div class="comp-rating"><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td>✅ Strong</td>
+            <td><span class="comp-badge badge-strong">Land-Based</span></td>
+          </tr>
+          <tr>
+            <td><span class="comp-name">Scientific Games</span></td>
+            <td>Lottery, Instant Win</td>
+            <td><div class="comp-rating"><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td>✅ Lottery</td>
+            <td><span class="comp-badge badge-niche">Lottery Focus</span></td>
+          </tr>
+          <tr>
+            <td><span class="comp-name">Kambi / SBTech</span></td>
+            <td>Sports Betting only</td>
+            <td><div class="comp-rating"><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot warn"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td>⚠️ Limited</td>
+            <td><span class="comp-badge badge-niche">Sports Only</span></td>
+          </tr>
+          <tr>
+            <td><span class="comp-name">Pragmatic Play</span></td>
+            <td>Casino, Live, Bingo, VS</td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot warn"></div><div class="comp-dot empty"></div></div></td>
+            <td><div class="comp-rating"><div class="comp-dot"></div><div class="comp-dot"></div><div class="comp-dot warn"></div><div class="comp-dot empty"></div><div class="comp-dot empty"></div></div></td>
+            <td>🔶 Growing</td>
+            <td><span class="comp-badge badge-growing">Fast Riser</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- OPPORTUNITY -->
+<section id="opportunity">
+  <div class="container">
+    <div class="section-label fade-in">Strategic Horizon</div>
+    <h2 class="section-title fade-in">The Opportunities<br>That Will Define<br>the Next Decade</h2>
+    <p class="section-desc fade-in">Playtech sits at the intersection of four macro tailwinds. The question is execution speed.</p>
+    <div class="opp-grid fade-in">
+      <div class="opp-card highlight">
+        <div class="opp-num">01 / BIGGEST OPPORTUNITY</div>
+        <div class="opp-icon">🇺🇸</div>
+        <div class="opp-title">US iGaming Explosion</div>
+        <p class="opp-desc">
+          38 states have legalised sports betting. Online casino is open in 7 states and accelerating.
+          The US market is projected to be worth <strong>$100B+ by 2030</strong>.
+          Playtech's technology partnerships with Hard Rock and BetMGM put it in pole position —
+          but the window to establish dominant market share is <em>right now</em>.
+          Every quarter of delay is territory ceded to Evolution, IGT, and homegrown operators.
+        </p>
+        <span class="opp-impact gold">TAM: $100B+ by 2030</span>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">02 / AI TRANSFORMATION</div>
+        <div class="opp-icon">🤖</div>
+        <div class="opp-title">AI-Powered Player Intelligence</div>
+        <p class="opp-desc">
+          Playtech's IMS processes 35 billion+ player actions a year. This is the richest behavioural dataset in gaming.
+          AI-driven personalisation, real-time RG intervention, and predictive churn models are not a future product —
+          they are the product operators will pay a premium for <em>today</em>.
+        </p>
+        <span class="opp-impact">Revenue Multiplier x3</span>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">03 / REGULATION WAVE</div>
+        <div class="opp-icon">📋</div>
+        <div class="opp-title">Global Regulatory Tailwind</div>
+        <p class="opp-desc">
+          Brazil just opened. India is watching. Germany reformed. Netherlands re-licensed.
+          Each new regulated market is a net-new revenue opportunity and Playtech's regulatory depth
+          is an asset no new entrant can replicate in less than 5 years.
+        </p>
+        <span class="opp-impact blue">15+ New Markets 2024–2027</span>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">04 / LIVE STUDIO EXPANSION</div>
+        <div class="opp-icon">🎥</div>
+        <div class="opp-title">Live Casino Dominance</div>
+        <p class="opp-desc">
+          Live Casino is the fastest-growing vertical in iGaming globally. Playtech operates the world's
+          largest live studio network. Expanding dedicated studios for US-facing operators, LatAm, and Asia
+          represents a direct path to £200M+ incremental revenue.
+        </p>
+        <span class="opp-impact gold">+£200M Incremental</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI GENERATION -->
+<section id="ai-future" style="background: var(--black); position:relative; overflow:hidden;">
+  <!-- Subtle neural net background -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,85,255,0.07) 0%, transparent 70%);pointer-events:none;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label fade-in" style="color:var(--cyan);">AI Generation · 2026–2030</div>
+    <h2 class="section-title fade-in" style="font-size:clamp(36px,5vw,72px);max-width:800px;">
+      The AI Era Starts Now.<br>
+      <span style="color:var(--brand);">Playtech Either Leads It</span><br>
+      Or Gets Left Behind.
+    </h2>
+    <p class="section-desc fade-in">Generative AI in gaming will reach <strong style="color:#fff;">$35B by 2035</strong>. These are not projections to monitor — they are decisions to make <em>this quarter</em>.</p>
+
+    <!-- Shock stats row -->
+    <div class="fade-in" style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:60px;">
+      <div style="background:var(--card);padding:32px 24px;border-top:3px solid var(--brand);">
+        <div style="font-size:clamp(28px,3.5vw,52px);font-weight:900;font-family:'Barlow Condensed',sans-serif;color:#fff;line-height:1;">$35<span style="font-size:0.45em;color:var(--cyan);">B</span></div>
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Generative AI gaming market by 2035</div>
+      </div>
+      <div style="background:var(--card);padding:32px 24px;border-top:3px solid var(--cyan);">
+        <div style="font-size:clamp(28px,3.5vw,52px);font-weight:900;font-family:'Barlow Condensed',sans-serif;color:#fff;line-height:1;">160<span style="font-size:0.45em;color:var(--cyan);">+</span></div>
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">Languages AI dealers already speak — competitors are live</div>
+      </div>
+      <div style="background:var(--card);padding:32px 24px;border-top:3px solid var(--gold);">
+        <div style="font-size:clamp(28px,3.5vw,52px);font-weight:900;font-family:'Barlow Condensed',sans-serif;color:#fff;line-height:1;">12<span style="font-size:0.45em;color:var(--gold);">days</span></div>
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">AI game generation time vs 12 months today</div>
+      </div>
+      <div style="background:var(--card);padding:32px 24px;border-top:3px solid var(--green);">
+        <div style="font-size:clamp(28px,3.5vw,52px);font-weight:900;font-family:'Barlow Condensed',sans-serif;color:#fff;line-height:1;">27<span style="font-size:0.45em;color:var(--green);">%</span></div>
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;">CAGR — AI in games 2023–2030</div>
+      </div>
+    </div>
+
+    <!-- 5 AI transformation cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="fade-in">
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;transition:all 0.3s;grid-column:span 3;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;border-top:3px solid var(--brand);">
+        <div>
+          <div style="font-size:11px;color:var(--brand);font-weight:700;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">01 / EXISTENTIAL THREAT</div>
+          <div style="font-size:28px;font-weight:800;font-family:'Barlow Condensed',sans-serif;margin-bottom:16px;">AI Dealers Are Already Here.<br>The Question Is: Ours or Theirs?</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Kiss AI (EEGaming) launched a fully AI-powered live casino infrastructure in February 2026 — AI dealers in 160+ languages, fully customisable per operator brand. <strong style="color:#fff;">Evolution and competitors are already deploying.</strong> Playtech's world #1 live studio network is an asset that becomes a liability the moment AI dealers scale — unless Playtech leads the transition. The opportunity: launch the industry's most sophisticated AI dealer platform, trained on Playtech's own 35B-action dataset.</p>
+          <div style="margin-top:20px;display:inline-block;padding:8px 20px;border-radius:8px;background:rgba(0,85,255,0.12);color:var(--bright);font-size:13px;font-weight:700;">⚡ Act in 2026 or cede Live to Evolution</div>
+        </div>
+        <div style="background:var(--card2);border-radius:12px;padding:28px;">
+          <div style="font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">AI Dealer Capability Comparison</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:14px;font-weight:600;">Languages supported</span>
+              <div style="display:flex;gap:16px;font-size:13px;">
+                <span style="color:var(--muted);">Playtech: <strong style="color:var(--gold);">~20</strong></span>
+                <span style="color:var(--muted);">AI-native: <strong style="color:var(--green);">160+</strong></span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:14px;font-weight:600;">Brand customisation</span>
+              <div style="display:flex;gap:16px;font-size:13px;">
+                <span style="color:var(--muted);">Playtech: <strong style="color:var(--gold);">Partial</strong></span>
+                <span style="color:var(--muted);">AI-native: <strong style="color:var(--green);">Full</strong></span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:14px;font-weight:600;">Scale / cost per table</span>
+              <div style="display:flex;gap:16px;font-size:13px;">
+                <span style="color:var(--muted);">Playtech: <strong style="color:var(--gold);">High</strong></span>
+                <span style="color:var(--muted);">AI-native: <strong style="color:var(--green);">Near zero</strong></span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:14px;font-weight:600;">24/7 no staffing</span>
+              <div style="display:flex;gap:16px;font-size:13px;">
+                <span style="color:var(--muted);">Playtech: <strong style="color:#ff4444);">No</strong></span>
+                <span style="color:var(--muted);">AI-native: <strong style="color:var(--green);">Yes</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;border-top:3px solid var(--cyan);">
+        <div style="font-size:11px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">02 / DATA MOAT</div>
+        <div style="font-size:24px;font-weight:800;font-family:'Barlow Condensed',sans-serif;margin-bottom:12px;">35 Billion Actions/Year = The Most Valuable AI Dataset in Gaming</div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">IMS doesn't just manage players — it holds the richest behavioural training corpus in the industry. Real-time AI churn prediction, personalised bonus engines, and responsible gambling interventions trained on this data will generate premium fees no competitor can replicate.</p>
+        <div style="margin-top:20px;display:inline-block;padding:8px 20px;border-radius:8px;background:rgba(0,212,255,0.1);color:var(--cyan);font-size:13px;font-weight:700;">Revenue multiplier: ×3 per operator</div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;border-top:3px solid var(--gold);">
+        <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">03 / GENERATIVE CONTENT</div>
+        <div style="font-size:24px;font-weight:800;font-family:'Barlow Condensed',sans-serif;margin-bottom:12px;">AI Compresses Game Dev From 12 Months to 12 Days</div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Generative AI can create slot mechanics, art, audio, and narrative in days. Playtech's 6,500-title catalogue advantage disappears unless it leads this transition — launching an AI game-generation studio that lets operators co-create branded titles on demand.</p>
+        <div style="margin-top:20px;display:inline-block;padding:8px 20px;border-radius:8px;background:rgba(255,184,0,0.1);color:var(--gold);font-size:13px;font-weight:700;">+1,000 new titles/year at near-zero marginal cost</div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;border-top:3px solid var(--green);">
+        <div style="font-size:11px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">04 / AUTONOMOUS OPERATIONS</div>
+        <div style="font-size:24px;font-weight:800;font-family:'Barlow Condensed',sans-serif;margin-bottom:12px;">The Operator of 2030 Runs on Agentic AI. Playtech Should Power It.</div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">AI agents will manage the entire player lifecycle — acquisition, activation, retention, responsible gambling — without human intervention. Playtech ONE is positioned to be the agentic orchestration layer. This is a platform shift, not a feature upgrade.</p>
+        <div style="margin-top:20px;display:inline-block;padding:8px 20px;border-radius:8px;background:rgba(0,217,126,0.1);color:var(--green);font-size:13px;font-weight:700;">New SaaS revenue tier: AI Operator-as-a-Service</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom provocative statement -->
+    <div class="fade-in" style="margin-top:48px;background:linear-gradient(135deg,rgba(0,85,255,0.12) 0%,rgba(0,212,255,0.06) 100%);border:1px solid rgba(0,85,255,0.3);border-radius:16px;padding:48px;text-align:center;">
+      <div style="font-size:clamp(22px,3vw,40px);font-weight:900;font-family:'Barlow Condensed',sans-serif;line-height:1.2;max-width:800px;margin:0 auto 20px;">
+        "By 2030, the best gaming operator in the world will be run<br>
+        <span style="color:var(--bright);">entirely by AI — on infrastructure we either own or missed."</span>
+      </div>
+      <p style="font-size:15px;color:var(--muted);max-width:560px;margin:0 auto;">The window to define Playtech as the AI infrastructure layer of global gaming is open for approximately 24 months.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label fade-in">25 Years of History</div>
+    <h2 class="section-title fade-in">From Tartu to the<br>World Stage</h2>
+    <p class="section-desc fade-in">Every major milestone that shaped the most comprehensive gaming technology company on earth.</p>
+    <div class="timeline-track fade-in">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1999</div>
+        <div class="timeline-title">Founded in Tartu, Estonia</div>
+        <p class="timeline-desc">Teddy Sagi founds Playtech with a vision to build the most advanced online gaming software. First client signs within 12 months.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2006</div>
+        <div class="timeline-title">IPO on London Stock Exchange</div>
+        <p class="timeline-desc">Playtech lists on the LSE, raising £117.5M. Shares surge 40% on debut — one of the largest tech IPOs that year.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2011</div>
+        <div class="timeline-title">William Hill Partnership</div>
+        <p class="timeline-desc">Landmark deal with William Hill — cementing Playtech's status as the premier B2B platform for Tier 1 UK operators.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2016</div>
+        <div class="timeline-title">IMS Platform Launched</div>
+        <p class="timeline-desc">Information Management System — a single omni-channel player account management system — becomes the industry benchmark for player data intelligence.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2018</div>
+        <div class="timeline-title">Snaitech Acquisition — €846M</div>
+        <p class="timeline-desc">Bold move into B2C: Playtech acquires Italy's leading gambling group, gaining 1,800+ physical betting shops and a dominant digital brand.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2021</div>
+        <div class="timeline-title">Aristocrat £2.7B Takeover Bid (Rejected)</div>
+        <p class="timeline-desc">Australian gaming giant Aristocrat Leisure makes a £2.7B offer. Rejected by shareholders — a clear signal that Playtech's value under independent operation is greater.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2022–24</div>
+        <div class="timeline-title">US Expansion Begins</div>
+        <p class="timeline-desc">Strategic technology partnerships with Hard Rock Digital and BetMGM. Playtech enters the world's most valuable emerging gaming market as a primary technology partner.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2026</div>
+        <div class="timeline-title">Playtech ONE — Unified Ecosystem</div>
+        <p class="timeline-desc">The company's integrated platform strategy reaches full maturity: one login, one wallet, one data layer, across all verticals. AI personalisation deployed at scale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGRAM SECTION -->
+<section id="diagram">
+  <div class="container">
+    <div class="section-label fade-in">Architecture Overview</div>
+    <h2 class="section-title fade-in">The Playtech Ecosystem</h2>
+    <p class="section-desc fade-in">An end-to-end view of how all product verticals connect through the Playtech ONE platform and IMS data layer.</p>
+    <div style="display:flex;gap:12px;margin-bottom:24px;" class="fade-in">
+      <a href="playtech-ecosystem.excalidraw" download class="btn-primary" style="font-size:13px;padding:10px 24px;">⬇ Download Excalidraw Diagram</a>
+      <a href="https://excalidraw.com" target="_blank" class="btn-secondary" style="font-size:13px;padding:10px 24px;">Open in Excalidraw ↗</a>
+    </div>
+    <div class="diagram-placeholder fade-in" id="diagramArea">
+      <div class="big-icon">🗺</div>
+      <p>Interactive ecosystem diagram loading below...</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section id="video-section">
+  <div class="container">
+    <div class="section-label fade-in">Brand Identity</div>
+    <h2 class="section-title fade-in">25 Years.<br>One Vision.</h2>
+    <p class="section-desc fade-in">The company that started as a software startup now powers the most trusted names in global gaming.</p>
+    <div style="margin-bottom:28px;" class="fade-in">
+      <a href="video.html" target="_blank" class="btn-primary" style="font-size:14px;padding:12px 32px;">▶ Watch Full Cinematic Intro</a>
+    </div>
+    <div class="video-player fade-in">
+      <div class="video-cinema">
+        <div class="video-lines"></div>
+        <div class="video-scan"></div>
+        <div class="video-corner tl"></div>
+        <div class="video-corner tr"></div>
+        <div class="video-corner bl"></div>
+        <div class="video-corner br"></div>
+        <div class="video-label-text">PLAYTECH EXECUTIVE INTELLIGENCE BRIEFING · 2026</div>
+        <div class="rec-dot">REC</div>
+        <div class="video-content">
+          <div class="video-logo" id="videoLogo">PLAYTECH</div>
+          <div class="video-tagline" id="videoTagline">The Future of Gaming Technology</div>
+          <div class="video-stats">
+            <div class="video-stat">
+              <div class="video-stat-num" id="vs1">0</div>
+              <div class="video-stat-label">Markets</div>
+            </div>
+            <div class="video-stat">
+              <div class="video-stat-num" id="vs2">0B+</div>
+              <div class="video-stat-label">Actions/yr</div>
+            </div>
+            <div class="video-stat">
+              <div class="video-stat-num" id="vs3">0K+</div>
+              <div class="video-stat-label">Employees</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top: 24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="playtech-video/" class="btn-secondary" style="font-size:13px;padding:10px 24px;">📂 View Remotion Project</a>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 24px;font-size:13px;color:var(--muted);">
+        Run <code style="color:var(--brand)">cd playtech-video && npm install && npm start</code> to preview in Remotion Studio
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PLAYTECH</div>
+  <p class="footer-text">
+    World's Largest Gaming Technology Company<br>
+    Founded 1999 · Isle of Man HQ · LSE: PTEC<br>
+    140+ Regulated Markets · 7,000+ Employees · £1.7B+ Revenue
+  </p>
+  <hr class="footer-divider">
+  <p class="footer-bottom">
+    CONFIDENTIAL — For Internal Executive Use Only · Prepared March 2026<br>
+    Data compiled from Playtech plc annual reports, investor presentations, and industry analysis.
+  </p>
+</footer>
+
+<script>
+// ─── TICKER ───
+const items = [
+  '£1.7B+ Revenue', '140+ Markets', '300+ Licences', '7,000+ Employees',
+  '35B+ Player Actions/Year', '25 Years of Innovation', 'LSE: PTEC',
+  '#1 B2B Gaming Platform', 'Snaitech — Italy #1', 'US Expansion Underway',
+  'Live Casino World Leader', '300+ Operator Partners'
+];
+const t = document.getElementById('ticker');
+const full = [...items, ...items].map(i =>
+  `<span class="ticker-item"><span class="ticker-dot"></span>${i}</span>`
+).join('');
+t.innerHTML = full;
+
+// ─── FADE IN ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // trigger counters when stats come in
+      if (e.target.closest('#numbers')) startCounters();
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ─── COUNTERS ───
+let countersStarted = false;
+function startCounters() {
+  if (countersStarted) return;
+  countersStarted = true;
+  document.querySelectorAll('.count-up').forEach(el => {
+    const target = +el.dataset.target;
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current).toLocaleString();
+      if (current >= target) clearInterval(timer);
+    }, 20);
+  });
+}
+
+// ─── REVENUE CHART ───
+const ctx = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+    datasets: [{
+      label: 'B2B Revenue (£M)',
+      data: [780, 590, 720, 890, 1100, 1380],
+      backgroundColor: 'rgba(0,85,255,0.8)',
+      borderColor: 'rgba(0,85,255,1)',
+      borderWidth: 1,
+      borderRadius: 6,
+    }, {
+      label: 'Total Revenue (£M)',
+      data: [1200, 900, 1100, 1350, 1580, 1700],
+      backgroundColor: 'rgba(255,255,255,0.06)',
+      borderColor: 'rgba(255,255,255,0.2)',
+      borderWidth: 1,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: '#888', font: { size: 12 } } }
+    },
+    scales: {
+      x: { ticks: { color: '#666' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#666' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+// ─── VIDEO ANIMATION ───
+const taglines = [
+  'The Future of Gaming Technology',
+  '140+ Regulated Markets',
+  '35 Billion Player Actions / Year',
+  'Powering the World\'s Biggest Brands',
+  'Playtech ONE — One Platform. Infinite Scale.',
+];
+let tIdx = 0;
+const tagEl = document.getElementById('videoTagline');
+setInterval(() => {
+  tagEl.style.opacity = '0';
+  setTimeout(() => {
+    tIdx = (tIdx + 1) % taglines.length;
+    tagEl.textContent = taglines[tIdx];
+    tagEl.style.opacity = '1';
+  }, 400);
+  tagEl.style.transition = 'opacity 0.4s';
+}, 3000);
+
+// Video stats counter animation (triggered on scroll)
+let vsStarted = false;
+const vsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !vsStarted) {
+      vsStarted = true;
+      animateNum(document.getElementById('vs1'), 0, 140, '', '+');
+      animateNum(document.getElementById('vs2'), 0, 35, 'B+', '');
+      animateNum(document.getElementById('vs3'), 0, 7, 'K+', '');
+    }
+  });
+}, { threshold: 0.5 });
+vsObserver.observe(document.getElementById('video-section'));
+
+function animateNum(el, from, to, suffix, prefix) {
+  let cur = from;
+  const step = (to - from) / 50;
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, to);
+    el.textContent = Math.floor(cur) + suffix;
+    if (cur >= to) clearInterval(t);
+  }, 30);
+}
+
+// ─── DIAGRAM EMBED ───
+// Replace diagram area with inline SVG ecosystem diagram
+const diagramArea = document.getElementById('diagramArea');
+diagramArea.innerHTML = `
+<svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#111;border-radius:16px;border:1px solid #2a2a2a;">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(0,85,255,0.6)"/>
+    </marker>
+  </defs>
+
+  <!-- CENTER: IMS -->
+  <rect x="390" y="220" width="220" height="80" rx="12" fill="#050D1C" stroke="#0055FF" stroke-width="2"/>
+  <text x="500" y="252" fill="#0055FF" font-family="Segoe UI,sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="2">PLAYTECH IMS</text>
+  <text x="500" y="272" fill="rgba(255,255,255,0.6)" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">Player Intelligence Engine</text>
+  <text x="500" y="288" fill="rgba(0,170,255,0.7)" font-family="Segoe UI,sans-serif" font-size="9" text-anchor="middle">35B+ actions/year</text>
+
+  <!-- TOP: Casino -->
+  <rect x="180" y="60" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="260" y="85" fill="#fff" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">🎰 Casino</text>
+  <text x="260" y="103" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">6,500+ game titles</text>
+  <line x1="260" y1="120" x2="430" y2="220" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- TOP: Live Casino -->
+  <rect x="420" y="40" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="500" y="65" fill="#fff" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">🎥 Live Casino</text>
+  <text x="500" y="83" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">World's #1 studio</text>
+  <line x1="500" y1="100" x2="500" y2="220" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- TOP: Sports -->
+  <rect x="660" y="60" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="740" y="85" fill="#fff" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">⚽ Sports</text>
+  <text x="740" y="103" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">60+ sports covered</text>
+  <line x1="740" y1="120" x2="580" y2="220" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- LEFT: Poker -->
+  <rect x="60" y="240" width="140" height="60" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="130" y="265" fill="#fff" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">♠ Poker</text>
+  <text x="130" y="283" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">iPoker Network</text>
+  <line x1="200" y1="270" x2="390" y2="260" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- RIGHT: Bingo -->
+  <rect x="800" y="240" width="140" height="60" rx="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="870" y="265" fill="#fff" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">🟡 Bingo</text>
+  <text x="870" y="283" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">Omni-channel</text>
+  <line x1="800" y1="270" x2="610" y2="260" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- BOTTOM: Snaitech -->
+  <rect x="180" y="430" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#0080FF" stroke-width="1.5"/>
+  <text x="260" y="455" fill="#0080FF" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">🇮🇹 Snaitech</text>
+  <text x="260" y="473" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">Italy's #1 B2C operator</text>
+  <line x1="260" y1="430" x2="430" y2="300" stroke="rgba(0,128,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- BOTTOM: US Market -->
+  <rect x="420" y="450" width="160" height="60" rx="10" fill="#050D1C" stroke="rgba(0,85,255,0.5)" stroke-width="1.5"/>
+  <text x="500" y="475" fill="#ff4444" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" text-anchor="middle">🇺🇸 US Market</text>
+  <text x="500" y="493" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">Hard Rock · BetMGM</text>
+  <line x1="500" y1="450" x2="500" y2="300" stroke="rgba(0,85,255,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- BOTTOM: Responsible Gambling -->
+  <rect x="660" y="430" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#00D97E" stroke-width="1.5"/>
+  <text x="740" y="452" fill="#00D97E" font-family="Segoe UI,sans-serif" font-size="11" font-weight="700" text-anchor="middle">🛡 Safer Gambling</text>
+  <text x="740" y="468" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">AI-powered RG tools</text>
+  <text x="740" y="484" fill="#888" font-family="Segoe UI,sans-serif" font-size="10" text-anchor="middle">Industry leading</text>
+  <line x1="740" y1="430" x2="570" y2="300" stroke="rgba(0,217,126,0.4)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Labels -->
+  <text x="500" y="540" fill="rgba(255,255,255,0.2)" font-family="Segoe UI,sans-serif" font-size="11" text-anchor="middle" letter-spacing="3">PLAYTECH ONE UNIFIED ECOSYSTEM</text>
+</svg>`;
+diagramArea.style.height = '560px';
+diagramArea.style.background = 'transparent';
+diagramArea.style.border = 'none';
+diagramArea.style.display = 'block';
+</script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Playtech — COO Briefing 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    #player {
+      width: min(1280px,100vw); aspect-ratio:16/9;
+      position: relative; overflow: hidden;
+      background: #060C1A; cursor: pointer;
+    }
+
+    /* ── persistent layers ── */
+    #grid {
+      position:absolute; inset:0; opacity:0;
+      background-image:
+        linear-gradient(rgba(0,85,255,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,85,255,0.12) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+    #scanlines {
+      position:absolute; inset:0; pointer-events:none; z-index:50;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+    }
+    #vignette {
+      position:absolute; inset:0; pointer-events:none; z-index:49;
+      background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+    }
+    #global-overlay { position:absolute; inset:0; background:#060C1A; z-index:48; opacity:0; pointer-events:none; }
+
+    /* ── scene base ── */
+    .scene {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      opacity:0; pointer-events:none;
+    }
+
+    /* ═══ SCENE 0 — CLASSIFIED ═══ */
+    #s0-bg { position:absolute; inset:0; background:#000; }
+    #s0-stamp {
+      font-family:'Barlow Condensed',sans-serif; font-size:clamp(48px,8vw,110px);
+      font-weight:900; color:rgba(200,0,0,0.85);
+      border:6px solid rgba(200,0,0,0.85); padding:8px 32px;
+      letter-spacing:0.15em; transform:rotate(-12deg);
+      text-transform:uppercase; opacity:0;
+      text-shadow: 0 0 30px rgba(200,0,0,0.5);
+    }
+    #s0-sub {
+      margin-top:32px; font-family:'Exo 2',sans-serif;
+      font-size:clamp(10px,1.2vw,16px); letter-spacing:0.3em;
+      color:rgba(255,255,255,0.3); text-transform:uppercase; opacity:0;
+    }
+
+    /* ═══ SCENE 1 — LOGO ═══ */
+    #s1-logo { opacity:0; transform:scale(0.2); filter:drop-shadow(0 0 0px #0055FF); }
+    #s1-tagline {
+      margin-top:24px; font-size:clamp(11px,1.5vw,20px);
+      letter-spacing:0.25em; color:rgba(255,255,255,0.45);
+      font-family:'Exo 2',sans-serif; font-weight:300;
+      text-transform:uppercase; opacity:0; transform:translateY(16px);
+    }
+    #s1-line { margin-top:20px; height:2px; width:0; background:linear-gradient(90deg,transparent,#0055FF,#00AAFF,transparent); }
+
+    /* ═══ SCENE 2 — SCALE ═══ */
+    #s2-wrap { width:90%; }
+    #s2-eyebrow {
+      font-size:clamp(9px,1vw,13px); color:#00AAFF; letter-spacing:0.25em;
+      text-transform:uppercase; font-family:'Exo 2',sans-serif; font-weight:600;
+      opacity:0; margin-bottom:clamp(16px,3vw,36px);
+    }
+    .big-stat {
+      display:flex; align-items:baseline; gap:12px;
+      margin-bottom:clamp(10px,2vw,22px); opacity:0; transform:translateX(-40px);
+    }
+    .big-stat-num {
+      font-size:clamp(36px,6vw,80px); font-weight:900; color:#fff;
+      font-family:'Barlow Condensed',sans-serif; line-height:1; letter-spacing:-0.02em;
+    }
+    .big-stat-bar { width:4px; height:clamp(30px,5vw,60px); border-radius:2px; flex-shrink:0; }
+    .big-stat-label { font-size:clamp(11px,1.4vw,18px); color:rgba(255,255,255,0.5); font-family:'Exo 2',sans-serif; line-height:1.3; }
+    .big-stat-highlight { color:#fff; font-weight:600; }
+
+    /* ═══ SCENE 3 — THREAT ═══ */
+    #s3-wrap { width:90%; }
+    #s3-eyebrow {
+      font-size:clamp(9px,1vw,13px); color:#ff4444; letter-spacing:0.25em;
+      text-transform:uppercase; font-family:'Exo 2',sans-serif; font-weight:600;
+      opacity:0; margin-bottom:clamp(12px,2vw,28px);
+    }
+    #s3-headline {
+      font-size:clamp(28px,4.5vw,62px); font-weight:900; line-height:1.05;
+      color:#fff; opacity:0; transform:translateY(24px);
+      margin-bottom:clamp(16px,3vw,36px);
+    }
+    #s3-headline em { color:#00AAFF; font-style:normal; }
+    .threat-row {
+      display:flex; align-items:center; gap:16px; padding:clamp(10px,1.5vw,16px) 0;
+      border-bottom:1px solid rgba(255,255,255,0.06); opacity:0; transform:translateX(30px);
+    }
+    .threat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .threat-co { font-size:clamp(13px,1.5vw,18px); font-weight:700; min-width:clamp(100px,12vw,160px); color:#fff; }
+    .threat-action { font-size:clamp(11px,1.2vw,15px); color:rgba(255,255,255,0.55); font-family:'Exo 2',sans-serif; flex:1; }
+    .threat-date { font-size:clamp(10px,1vw,13px); color:#ff4444; font-weight:700; letter-spacing:0.05em; white-space:nowrap; }
+
+    /* ═══ SCENE 4 — WINDOW ═══ */
+    #s4-wrap { width:88%; text-align:center; }
+    #s4-timer {
+      font-size:clamp(64px,11vw,140px); font-weight:900; color:#0055FF;
+      font-family:'Barlow Condensed',sans-serif; line-height:1;
+      letter-spacing:-0.03em; opacity:0; transform:scale(1.4);
+      text-shadow: 0 0 60px rgba(0,85,255,0.6);
+    }
+    #s4-unit {
+      font-size:clamp(14px,2vw,26px); color:rgba(255,255,255,0.4);
+      letter-spacing:0.2em; text-transform:uppercase;
+      font-family:'Exo 2',sans-serif; opacity:0; margin-top:4px;
+    }
+    #s4-desc {
+      font-size:clamp(16px,2.5vw,36px); font-weight:700; color:#fff;
+      margin:clamp(16px,3vw,32px) auto; max-width:800px; line-height:1.25;
+      opacity:0; transform:translateY(20px);
+    }
+    #s4-desc em { color:#00AAFF; font-style:normal; }
+    .decision-pill {
+      display:inline-flex; align-items:center; gap:10px;
+      background:rgba(0,85,255,0.12); border:1px solid rgba(0,85,255,0.3);
+      border-radius:40px; padding:clamp(6px,1vw,12px) clamp(14px,2vw,24px);
+      margin:6px; font-size:clamp(11px,1.2vw,15px); color:rgba(255,255,255,0.8);
+      font-family:'Exo 2',sans-serif; opacity:0;
+    }
+    .decision-pill strong { color:#00AAFF; }
+
+    /* ═══ SCENE 5 — CALL TO ACTION ═══ */
+    #s5-glow {
+      position:absolute; width:60%; aspect-ratio:1; border-radius:50%;
+      background:radial-gradient(ellipse, rgba(0,85,255,0.22) 0%, transparent 70%);
+      opacity:0;
+    }
+    #s5-logo { position:relative; opacity:0; transform:scale(0.6); }
+    #s5-quote {
+      position:relative; margin-top:28px;
+      font-size:clamp(13px,2vw,28px); font-weight:700;
+      color:rgba(255,255,255,0.8); text-align:center;
+      max-width:min(700px,85vw); line-height:1.35;
+      opacity:0; transform:translateY(20px); font-family:'Barlow Condensed',sans-serif;
+    }
+    #s5-quote em { color:#00AAFF; font-style:normal; }
+    #s5-line { margin-top:20px; height:2px; width:0; background:linear-gradient(90deg,transparent,#0055FF,#00AAFF,transparent); position:relative; }
+    #s5-white { position:absolute; inset:0; background:#fff; opacity:0; }
+
+    /* ── controls ── */
+    #controls {
+      width:min(1280px,100vw); background:#0A0F1C;
+      padding:12px 24px; display:flex; align-items:center; gap:16px;
+      border-top:1px solid #172040;
+    }
+    #play-btn {
+      background:#0055FF; border:none; color:#fff;
+      width:40px; height:40px; border-radius:50%;
+      font-size:16px; cursor:pointer; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      transition:background 0.2s;
+    }
+    #play-btn:hover { background:#003ACC; }
+    #progress-wrap { flex:1; height:4px; background:#172040; border-radius:2px; cursor:pointer; }
+    #progress-bar { height:4px; background:linear-gradient(90deg,#0055FF,#00AAFF); border-radius:2px; width:0%; pointer-events:none; }
+    #time-label { color:#6B80AA; font-size:13px; font-family:'Exo 2',sans-serif; min-width:76px; text-align:right; }
+    #scene-label { color:#2A3A5A; font-size:11px; font-family:'Exo 2',sans-serif; letter-spacing:0.08em; text-transform:uppercase; }
+
+    /* ── hint ── */
+    #hint {
+      position:absolute; inset:0; z-index:51;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background:rgba(0,0,0,0.6); backdrop-filter:blur(2px);
+    }
+    .hint-ring {
+      width:80px; height:80px; border-radius:50%;
+      background:rgba(0,85,255,0.9); display:flex; align-items:center; justify-content:center;
+      font-size:30px; color:#fff; margin-bottom:14px;
+      box-shadow:0 0 40px rgba(0,85,255,0.5);
+    }
+    .hint-text { color:rgba(255,255,255,0.5); font-size:13px; font-family:'Exo 2',sans-serif; letter-spacing:0.2em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+
+<div id="player">
+  <div id="grid"></div>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+  <div id="global-overlay"></div>
+
+  <!-- S0: CLASSIFIED -->
+  <div class="scene" id="scene0">
+    <div id="s0-bg"></div>
+    <div id="s0-stamp">CONFIDENTIAL</div>
+    <div id="s0-sub">Playtech Group · Executive Intelligence · March 2026</div>
+  </div>
+
+  <!-- S1: LOGO -->
+  <div class="scene" id="scene1">
+    <div id="s1-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 70" style="width:clamp(220px,36vw,400px);height:auto;">
+        <defs>
+          <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0055FF"/>
+            <stop offset="100%" stop-color="#00AAFF"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="2" width="66" height="66" rx="14" fill="url(#lg1)"/>
+        <polygon points="20,18 20,52 48,35" fill="rgba(255,255,255,0.22)"/>
+        <text x="14" y="54" font-family="Rajdhani,Arial Black,sans-serif" font-size="46" font-weight="700" fill="#fff">P</text>
+        <text x="82" y="52" font-family="Rajdhani,Arial,sans-serif" font-size="44" font-weight="600" fill="#fff" letter-spacing="2">playtech</text>
+      </svg>
+    </div>
+    <div id="s1-tagline">Executive Intelligence Briefing · 2026</div>
+    <div id="s1-line"></div>
+  </div>
+
+  <!-- S2: SCALE -->
+  <div class="scene" id="scene2">
+    <div id="s2-wrap">
+      <div id="s2-eyebrow">The Business in Numbers — Right Now</div>
+      <div class="big-stat" id="bs0">
+        <div class="big-stat-bar" style="background:#0055FF;box-shadow:0 0 10px #0055FF"></div>
+        <div class="big-stat-num">£1.7B+</div>
+        <div class="big-stat-label"><span class="big-stat-highlight">Annual revenue.</span><br>Growing 18% YoY.</div>
+      </div>
+      <div class="big-stat" id="bs1">
+        <div class="big-stat-bar" style="background:#00AAFF;box-shadow:0 0 10px #00AAFF"></div>
+        <div class="big-stat-num">140+</div>
+        <div class="big-stat-label"><span class="big-stat-highlight">Regulated markets.</span><br>More licences than any competitor.</div>
+      </div>
+      <div class="big-stat" id="bs2">
+        <div class="big-stat-bar" style="background:#FFB800;box-shadow:0 0 10px #FFB800"></div>
+        <div class="big-stat-num">35B</div>
+        <div class="big-stat-label"><span class="big-stat-highlight">Player actions per year</span><br>flowing through IMS. The richest AI dataset in gaming.</div>
+      </div>
+      <div class="big-stat" id="bs3">
+        <div class="big-stat-bar" style="background:#00D97E;box-shadow:0 0 10px #00D97E"></div>
+        <div class="big-stat-num">$100B</div>
+        <div class="big-stat-label"><span class="big-stat-highlight">US iGaming TAM by 2030.</span><br>Our partnerships are in pole position.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3: THREAT -->
+  <div class="scene" id="scene3">
+    <div id="s3-wrap">
+      <div id="s3-eyebrow">⚠ Competitive Intelligence — What Happened While We Planned</div>
+      <div id="s3-headline">The AI Era in Gaming<br>Has <em>Already Started.</em></div>
+      <div class="threat-row" id="tr0">
+        <div class="threat-dot" style="background:#ff4444"></div>
+        <div class="threat-co">Kiss AI</div>
+        <div class="threat-action">Launched AI-native live casino with AI dealers in <strong style="color:#fff">160+ languages</strong>, infinite brand customisation, near-zero operating cost</div>
+        <div class="threat-date">Feb 2026 ●</div>
+      </div>
+      <div class="threat-row" id="tr1">
+        <div class="threat-dot" style="background:#ff8800"></div>
+        <div class="threat-co">Evolution</div>
+        <div class="threat-action">Deploying AI personalisation across all live tables. Hyper-tailored UX per player. AI-driven RG and compliance automation</div>
+        <div class="threat-date">Q1 2026 ●</div>
+      </div>
+      <div class="threat-row" id="tr2">
+        <div class="threat-dot" style="background:#FFB800"></div>
+        <div class="threat-co">Pragmatic Play</div>
+        <div class="threat-action">Gen-AI content pipeline live — game creation time cut from 9 months to weeks. Volume increasing 4×</div>
+        <div class="threat-date">2025–26 ●</div>
+      </div>
+      <div class="threat-row" id="tr3">
+        <div class="threat-dot" style="background:#6B80AA"></div>
+        <div class="threat-co">iGaming SaaS</div>
+        <div class="threat-action">New AI-native operators launching — <strong style="color:#fff">no Playtech stack required.</strong> Agentic platforms replacing traditional B2B software</div>
+        <div class="threat-date">Emerging ●</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: WINDOW -->
+  <div class="scene" id="scene4">
+    <div id="s4-wrap">
+      <div id="s4-timer">24</div>
+      <div id="s4-unit">months to define the next decade</div>
+      <div id="s4-desc">Three decisions that determine whether Playtech<br><em>leads the AI era</em> or is disrupted by it.</div>
+      <div>
+        <span class="decision-pill" id="dp0"><strong>01</strong> Launch AI Dealer Platform — before Evolution scales</span>
+        <span class="decision-pill" id="dp1"><strong>02</strong> Monetise IMS as an AI data product — 35B actions/yr</span>
+        <span class="decision-pill" id="dp2"><strong>03</strong> Build Generative Game Studio — 1,000 titles/yr at near-zero cost</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: CTA -->
+  <div class="scene" id="scene5">
+    <div id="s5-glow"></div>
+    <div id="s5-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 70" style="width:clamp(180px,28vw,320px);height:auto;">
+        <defs>
+          <linearGradient id="lg5" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0055FF"/>
+            <stop offset="100%" stop-color="#00AAFF"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="2" width="66" height="66" rx="14" fill="url(#lg5)"/>
+        <polygon points="20,18 20,52 48,35" fill="rgba(255,255,255,0.22)"/>
+        <text x="14" y="54" font-family="Rajdhani,Arial Black,sans-serif" font-size="46" font-weight="700" fill="#fff">P</text>
+        <text x="82" y="52" font-family="Rajdhani,Arial,sans-serif" font-size="44" font-weight="600" fill="#fff" letter-spacing="2">playtech</text>
+      </svg>
+    </div>
+    <div id="s5-quote">
+      "The question is not whether AI transforms gaming.<br>
+      It is whether <em>Playtech owns the infrastructure</em><br>
+      that powers it — or someone else does."
+    </div>
+    <div id="s5-line"></div>
+    <div id="s5-white"></div>
+  </div>
+
+  <!-- Hint -->
+  <div id="hint">
+    <div class="hint-ring">▶</div>
+    <div class="hint-text">Click to play</div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div id="controls">
+  <button id="play-btn">▶</button>
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="time-label">0:00 / 0:18</div>
+  <div id="scene-label">Ready</div>
+</div>
+
+<script>
+const DURATION = 18000; // 18 seconds
+let startTime = null, elapsed = 0, playing = false, rafId = null;
+
+// ── easing ──
+const easeOut  = t => 1-(1-t)**2;
+const easeInOut= t => t<.5?2*t*t:-1+(4-2*t)*t;
+const easeExp  = t => t===1?1:1-Math.pow(2,-10*t);
+function easeSpring(t) { return 1-Math.exp(-7*t)*Math.cos(4*t*Math.PI); }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function clamp(t){ return Math.max(0,Math.min(1,t)); }
+function norm(ms,s,e){ return clamp((ms-s)/(e-s)); }
+function tween(t,a,b,ease){ return lerp(a,b,ease(clamp(t))); }
+
+// ── elements ──
+const grid    = document.getElementById('grid');
+const gOver   = document.getElementById('global-overlay');
+
+const sc0     = document.getElementById('scene0');
+const s0stamp = document.getElementById('s0-stamp');
+const s0sub   = document.getElementById('s0-sub');
+
+const sc1     = document.getElementById('scene1');
+const s1logo  = document.getElementById('s1-logo');
+const s1tag   = document.getElementById('s1-tagline');
+const s1line  = document.getElementById('s1-line');
+
+const sc2     = document.getElementById('scene2');
+const s2eye   = document.getElementById('s2-eyebrow');
+const bstats  = [0,1,2,3].map(i=>document.getElementById('bs'+i));
+
+const sc3     = document.getElementById('scene3');
+const s3eye   = document.getElementById('s3-eyebrow');
+const s3head  = document.getElementById('s3-headline');
+const trows   = [0,1,2,3].map(i=>document.getElementById('tr'+i));
+
+const sc4     = document.getElementById('scene4');
+const s4timer = document.getElementById('s4-timer');
+const s4unit  = document.getElementById('s4-unit');
+const s4desc  = document.getElementById('s4-desc');
+const dpills  = [0,1,2].map(i=>document.getElementById('dp'+i));
+
+const sc5     = document.getElementById('scene5');
+const s5glow  = document.getElementById('s5-glow');
+const s5logo  = document.getElementById('s5-logo');
+const s5quote = document.getElementById('s5-quote');
+const s5line  = document.getElementById('s5-line');
+const s5white = document.getElementById('s5-white');
+
+const hint    = document.getElementById('hint');
+const playBtn = document.getElementById('play-btn');
+const progBar = document.getElementById('progress-bar');
+const timeLbl = document.getElementById('time-label');
+const sceneLbl= document.getElementById('scene-label');
+const progWrap= document.getElementById('progress-wrap');
+
+// ── scene windows (ms) ──
+// S0 CLASSIFIED:  0–2000
+// transition:     1800–2200 (flash)
+// S1 LOGO:        2000–4200
+// transition:     4000–4400
+// S2 SCALE:       4000–8000
+// transition:     7800–8200
+// S3 THREAT:      7800–12000
+// transition:     11800–12200
+// S4 WINDOW:      12000–15500
+// S5 CTA:         15500–18000
+
+function render(t) {
+  progBar.style.width = (t/DURATION*100)+'%';
+  const secs = Math.floor(t/1000);
+  timeLbl.textContent = `0:${String(secs).padStart(2,'0')} / 0:18`;
+
+  // Grid fades in once
+  grid.style.opacity = clamp(t/800)*0.9;
+
+  // ─ flash helper ─
+  const flashAt = (ms) => {
+    const d = Math.abs(t-ms);
+    return d<80 ? (1-d/80)*0.9 : 0;
+  };
+  const flash = flashAt(2000)+flashAt(4200)+flashAt(8000)+flashAt(12000)+flashAt(15500);
+  gOver.style.opacity = flash;
+
+  // ═══ S0 CLASSIFIED (0–2000) ═══
+  if(t<2200){
+    sc0.style.opacity = t<2000?1:tween(norm(t,2000,2200),1,0,easeOut);
+    sceneLbl.textContent = 'CLASSIFIED OPENING';
+    const stampt = norm(t,100,700);
+    s0stamp.style.opacity = tween(stampt,0,1,easeSpring);
+    s0stamp.style.transform = `rotate(-12deg) scale(${tween(stampt,1.3,1,easeSpring)})`;
+    s0sub.style.opacity    = tween(norm(t,800,1400),0,1,easeOut);
+  } else { sc0.style.opacity=0; }
+
+  // ═══ S1 LOGO (2000–4200) ═══
+  if(t>=1900&&t<4400){
+    sc1.style.opacity = t<2200?tween(norm(t,1900,2200),0,1,easeOut):t>4000?tween(norm(t,4000,4400),1,0,easeOut):1;
+    sceneLbl.textContent = 'PLAYTECH IDENTITY';
+    const lt = norm(t,2200,3000);
+    s1logo.style.opacity   = tween(norm(t,2200,2800),0,1,easeOut);
+    s1logo.style.transform = `scale(${tween(lt,0.2,1,easeSpring)})`;
+    const glow = lerp(0,80,easeExp(norm(t,2200,2900)))*(1-0.5*easeOut(norm(t,3000,4000)));
+    s1logo.style.filter    = `drop-shadow(0 0 ${glow*.35}px #0055FF) drop-shadow(0 0 ${glow*.6}px rgba(0,170,255,0.45))`;
+    s1tag.style.opacity    = tween(norm(t,3000,3600),0,1,easeOut);
+    s1tag.style.transform  = `translateY(${tween(norm(t,3000,3600),16,0,easeOut)}px)`;
+    s1line.style.width     = tween(norm(t,3200,4000),0,320,easeExp)+'px';
+  } else { sc1.style.opacity=0; }
+
+  // ═══ S2 SCALE (4000–8000) ═══
+  if(t>=3900&&t<8200){
+    sc2.style.opacity = t<4200?tween(norm(t,3900,4200),0,1,easeOut):t>7800?tween(norm(t,7800,8200),1,0,easeOut):1;
+    sceneLbl.textContent = 'THE SCALE';
+    s2eye.style.opacity = tween(norm(t,4200,4700),0,1,easeOut);
+    const delays=[4700,5300,5900,6600];
+    bstats.forEach((el,i)=>{
+      const p=norm(t,delays[i],delays[i]+600);
+      el.style.opacity=tween(p,0,1,easeOut);
+      el.style.transform=`translateX(${tween(p,-40,0,easeSpring)}px)`;
+    });
+  } else { sc2.style.opacity=0; }
+
+  // ═══ S3 THREAT (7800–12000) ═══
+  if(t>=7700&&t<12200){
+    sc3.style.opacity = t<8200?tween(norm(t,7700,8200),0,1,easeOut):t>11800?tween(norm(t,11800,12200),1,0,easeOut):1;
+    sceneLbl.textContent = 'COMPETITIVE THREAT';
+    s3eye.style.opacity  = tween(norm(t,8200,8700),0,1,easeOut);
+    s3head.style.opacity = tween(norm(t,8500,9200),0,1,easeOut);
+    s3head.style.transform=`translateY(${tween(norm(t,8500,9200),24,0,easeOut)}px)`;
+    const tDelays=[9300,9900,10500,11100];
+    trows.forEach((el,i)=>{
+      const p=norm(t,tDelays[i],tDelays[i]+500);
+      el.style.opacity=tween(p,0,1,easeOut);
+      el.style.transform=`translateX(${tween(p,30,0,easeSpring)}px)`;
+    });
+  } else { sc3.style.opacity=0; }
+
+  // ═══ S4 WINDOW (12000–15500) ═══
+  if(t>=11900&&t<15600){
+    sc4.style.opacity = t<12200?tween(norm(t,11900,12200),0,1,easeOut):t>15200?tween(norm(t,15200,15600),1,0,easeOut):1;
+    sceneLbl.textContent = 'THE WINDOW';
+    const timerT=norm(t,12200,13200);
+    s4timer.style.opacity=tween(timerT,0,1,easeOut);
+    s4timer.style.transform=`scale(${tween(timerT,1.4,1,easeSpring)})`;
+    s4unit.style.opacity=tween(norm(t,13100,13700),0,1,easeOut);
+    s4desc.style.opacity=tween(norm(t,13500,14200),0,1,easeOut);
+    s4desc.style.transform=`translateY(${tween(norm(t,13500,14200),20,0,easeOut)}px)`;
+    const dDelays=[14200,14600,15000];
+    dpills.forEach((el,i)=>{
+      el.style.opacity=tween(norm(t,dDelays[i],dDelays[i]+400),0,1,easeOut);
+    });
+  } else { sc4.style.opacity=0; }
+
+  // ═══ S5 CTA (15500–18000) ═══
+  if(t>=15400){
+    sc5.style.opacity = t<15700?tween(norm(t,15400,15700),0,1,easeOut):1;
+    sceneLbl.textContent = 'THE DECISION';
+    const pulse=0.15+0.1*Math.sin(t/500*Math.PI);
+    s5glow.style.opacity=tween(norm(t,15700,16200),0,1,easeOut)*pulse*7;
+    const l5t=norm(t,15700,16500);
+    s5logo.style.opacity=tween(l5t,0,1,easeOut);
+    s5logo.style.transform=`scale(${tween(l5t,0.6,1,easeSpring)})`;
+    s5logo.style.filter=`drop-shadow(0 0 ${lerp(0,24,easeOut(l5t))}px #0055FF)`;
+    s5quote.style.opacity=tween(norm(t,16500,17200),0,1,easeOut);
+    s5quote.style.transform=`translateY(${tween(norm(t,16500,17200),20,0,easeOut)}px)`;
+    s5line.style.width=tween(norm(t,17000,17800),0,260,easeExp)+'px';
+    s5white.style.opacity=tween(norm(t,17200,18000),0,1,easeInOut);
+  } else { sc5.style.opacity=0; }
+
+  if(t>=DURATION){ playing=false; playBtn.textContent='↺'; sceneLbl.textContent='Finished'; elapsed=DURATION; }
+}
+
+function tick(ts){
+  if(!playing)return;
+  if(!startTime) startTime=ts-elapsed;
+  elapsed=ts-startTime;
+  if(elapsed>DURATION) elapsed=DURATION;
+  render(elapsed);
+  if(elapsed<DURATION) rafId=requestAnimationFrame(tick);
+  else { playing=false; playBtn.textContent='↺'; }
+}
+
+function play(){
+  if(elapsed>=DURATION){elapsed=0;render(0);}
+  playing=true; startTime=null;
+  playBtn.textContent='⏸'; hint.style.display='none';
+  rafId=requestAnimationFrame(tick);
+}
+function pause(){ playing=false; cancelAnimationFrame(rafId); playBtn.textContent='▶'; }
+
+playBtn.addEventListener('click',()=>playing?pause():play());
+hint.addEventListener('click',play);
+document.getElementById('player').addEventListener('click',(e)=>{
+  if(hint.contains(e.target))return;
+  playing?pause():play();
+});
+progWrap.addEventListener('click',(e)=>{
+  const r=progWrap.getBoundingClientRect();
+  elapsed=((e.clientX-r.left)/r.width)*DURATION;
+  startTime=null; render(elapsed);
+  if(!playing){ hint.style.display='none'; playBtn.textContent='▶'; }
+});
+
+render(0);
+</script>
+</body>
+</html>
